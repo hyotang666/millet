@@ -1,13 +1,11 @@
 ; vim: ft=lisp et
 (in-package :asdf)
 (defsystem :millet
-  :depends-on (:closer-mop)
-  :in-order-to ((test-op (test-op :millet-test)))
+  :description "Tiny utilities which abandoned by alexandria."
+  :long-description #.(uiop:read-file-string
+                        (uiop:subpathname "README.md" *load-pathname*))
+  :author "Shinichi Sato"
   :components((:file "millet")))
-
-(defsystem :millet-test
-  :depends-on (:jingoh :millet)
-  :components ((:file "design"))
-  :perform (test-op(o s)
-             (uiop:symbol-call :jingoh 'report)))
-
+;; Perform method below is added by JINGOH.GENERATOR.
+(defmethod perform ((o test-op) (c (eql (find-system "millet"))))
+ (test-system :millet.test))

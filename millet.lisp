@@ -4,19 +4,15 @@
     #:function-name
     #:lambda-list
     #:global-symbol-p
+    #:special-symbol-p
+    #:type-expand
+    #:type-specifier-p
     ))
 (in-package :millet)
-
-(eval-when(:compile-toplevel :load-toplevel)
-  (defun doc(system namestring)
-    (uiop:read-file-string
-      (uiop:subpathname(asdf:system-source-directory(asdf:find-system system))
-	namestring))))
 
 ; FUNCTION-LAMBDA-EXPRESSION sometimes fail to return function name.
 ; especially when hard optimization is specified.
 (defun function-name(function)
-  #.(doc :millet "doc/function-name.F.md")
   (check-type function function)
   #.(or ; to avoid write #-(or ...) ; be care to quote!
       #+clisp `(let((it(sys::function-name function)))
@@ -35,7 +31,6 @@
       `(nth-value 2(function-lambda-expression function)))) ; as default.
 
 (defun global-symbol-p(symbol)
-  #.(doc :millet "doc/global-symbol-p.F.md")
   (check-type symbol symbol)
   #.(or ; to avoid write #-(or ...) ; be care to quote!
       #+clisp `(ext:special-variable-p symbol)
@@ -46,8 +41,11 @@
 		 (walker:variable-special-p symbol nil))
      `(not-support-warning 'global-symbol-p))) ; as default.
 
+(defun special-symbol-p(symbol)
+  (and (global-symbol-p symbol)
+       (not(constantp symbol))))
+
 (defun lambda-list(arg)
-  #.(doc :millet "doc/lambda-list.F.md")
   #.(or ; to avoid write #-(or ...)
       #+clisp `(ext:arglist arg)
       #+ccl `(ccl:arglist (or(and(typep arg '(cons (eql lambda) T))
@@ -63,3 +61,36 @@
 
 (defun not-support-warning (api)
   (warn "~S is not implemented in ~A" api uiop:*implementation-type*))
+
+(defun type-expand(type)
+  #.(or
+      #+clisp `(handler-case(ext:type-expand type)
+		 (error()(values type nil)))
+      #+sbcl `(sb-ext:typexpand type)
+      #+ccl `(let((expanded?(ccl::type-expand type)))
+	       (if (eq expanded? type)
+		 (values expanded? NIL)
+		 (values expanded? T)))
+      #+ecl `(let((expanded?(si::expand-deftype type)))
+	       (if(eq expanded? type)
+		 (values expanded? NIL)
+		 (values expanded? T)))
+      `(not-support-warning 'type-expand)))
+
+(defun type-specifier-p(type)
+  #.(or
+      #+sbcl `(sb-ext:valid-type-specifier-p type)
+      #+ccl `(let((it(ccl:type-specifier-p type)))
+	       (if it T NIL))
+      `(labels((rec(specifier)
+		 (typecase specifier
+		   ((or SYMBOL
+			(CONS (EQL NOT) T))
+		    (values(ignore-errors(progn (typep '#:dummy specifier)
+						T))))
+		   ((CONS (EQL SATISFIES) T)
+		    T)
+		   ((or (CONS (EQL AND)T)
+			(CONS (EQL OR)T))
+		    (every #'rec (cdr specifier))))))
+	 (rec type))))

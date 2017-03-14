@@ -1,18 +1,18 @@
-# MILLET - Tiny utilities which abandoned by alexandria.
+# MILLET 0.0.0 - Tiny utilities which abandoned by alexandria.
 
-* Current lisp world
+## Current lisp world
 Alexandria covers many utilities.
 
-* Issues
+## Issues
 Alexandria says never use implementation dependent features.
-But some utilities need to depends on it.
+But some utilities need to depend on it.
 
-* Propose
+## Proposal
 Millet covers it.
 
 ## Usage
 ```lisp
-(function #'car) => CAR
+(function-name #'car) => CAR
 (lambda-list #'car) => (#:ARG0)
 (global-symbolp 'pi) => T
 ```
