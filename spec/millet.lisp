@@ -145,8 +145,8 @@
 #?(type-expand 'octet)
 :values ((unsigned-byte 8)
 	 T)
-#?(type-expand '(unsigned-byte 8))
-:values ((unsigned-byte 8)
+#?(type-expand 'vector)
+:values (VECTOR
 	 NIL)
 
 ;;;; Affected By:

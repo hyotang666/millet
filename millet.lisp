@@ -25,7 +25,7 @@
 	      (clos:generic-function-name function)
 	      (ext:compiled-function-name function))
       #+ccl `(ccl:function-name function)
-      #+sbcl `(let((it(sb-pcl::fun-name function)))
+      #+sbcl `(let((it(sb-kernel::%fun-name function)))
 	       (unless(typep it '(cons (eql lambda)t))
 		 it))
       `(nth-value 2(function-lambda-expression function)))) ; as default.
@@ -66,7 +66,11 @@
   #.(or
       #+clisp `(handler-case(ext:type-expand type)
 		 (error()(values type nil)))
-      #+sbcl `(sb-ext:typexpand type)
+      #+sbcl `(multiple-value-bind(result condition)(ignore-errors(sb-ext:typexpand-1 type))
+		(if (or (null condition)
+			(typep condition 'condition))
+		  (values type nil)
+		  (values result T)))
       #+ccl `(let((expanded?(ccl::type-expand type)))
 	       (if (eq expanded? type)
 		 (values expanded? NIL)
