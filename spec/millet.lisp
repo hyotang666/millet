@@ -121,13 +121,10 @@
 
 ;;;; Description:
 ; expand user defined type specifier.
-#?(deftype octet()'(unsigned-byte 8))
-=> OCTET
-#?(deftype octets (&optional num)
-    `(vector octet ,num))
-=> OCTETS
-#?(type-expand '(octets 3))
-=> (VECTOR octet 3)
+#?(deftype function-name()
+    '(or function symbol))
+=> FUNCTION-NAME
+#?(type-expand 'function-name) => (OR FUNCTION SYMBOL)
 ,:test equal
 
 #+syntax
@@ -142,11 +139,11 @@
 ; result := 2 values
 ; 1. type specifier which may expanded.
 ; 2. boolean which represents type specifier is expanded or not.
-#?(type-expand 'octet)
-:values ((unsigned-byte 8)
+#?(type-expand 'function-name)
+:values ((OR FUNCTION SYMBOL)
 	 T)
-#?(type-expand 'vector)
-:values (VECTOR
+#?(type-expand 'symbol)
+:values (SYMBOL
 	 NIL)
 
 ;;;; Affected By:
@@ -163,7 +160,7 @@
 
 ;;;; Description:
 ; Tests arg is type-specifier or not.
-#?(type-specifier-p 'octet) => T
+#?(type-specifier-p 'function-name) => T
 #?(type-specifier-p :not-type-specifier) => NIL
 
 #+syntax
