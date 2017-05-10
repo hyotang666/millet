@@ -90,14 +90,9 @@
       #+ccl `(let((it(ccl:type-specifier-p type)))
 	       (if it T NIL))
       `(labels((rec(specifier)
-		 (typecase specifier
-		   ((or SYMBOL
-			(CONS (EQL NOT) T))
+		 (if(typep specifier '(OR (CONS (EQL AND)T)
+					  (CONS (EQL OR)T)))
+		    (every #'rec (cdr specifier))
 		    (values(ignore-errors(progn (typep '#:dummy specifier)
-						T))))
-		   ((CONS (EQL SATISFIES) T)
-		    T)
-		   ((or (CONS (EQL AND)T)
-			(CONS (EQL OR)T))
-		    (every #'rec (cdr specifier))))))
+						T))))))
 	 (rec type))))
