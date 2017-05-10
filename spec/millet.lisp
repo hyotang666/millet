@@ -162,6 +162,14 @@
 ; Tests arg is type-specifier or not.
 #?(type-specifier-p 'function-name) => T
 #?(type-specifier-p :not-type-specifier) => NIL
+#?(type-specifier-p '(unsigned-byte 8)) => T
+#?(type-specifier-p '(mod 4)) => T
+#?(type-specifier-p '(not symbol)) => T
+#?(type-specifier-p '(integer 4 9)) => T
+#?(type-specifier-p '(or symbol string)) => T
+#?(type-specifier-p '(eql 4)) => T
+#?(type-specifier-p '(satisfies listp)) => T
+#?(type-specifier-p '(and list (not null))) => T
 
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
