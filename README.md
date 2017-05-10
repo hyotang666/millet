@@ -21,6 +21,6 @@ Millet covers it.
 
 * Product's goal - ?
 * License - public domain
-* Developped with - CLISP
-* Tested with - SBCL CCL ECL
+* Developped with - CLISP/2.49
+* Tested with - SBCL/1.3.2 CCL/1.11 ECL/16.1.3
 
