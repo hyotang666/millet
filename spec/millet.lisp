@@ -1,6 +1,6 @@
 (defpackage :millet.spec (:use :cl :jingoh :millet))
 (in-package :millet.spec)
-(setup :millet.spec)
+(setup :millet)
 
 (requirements-about FUNCTION-NAME)
 
