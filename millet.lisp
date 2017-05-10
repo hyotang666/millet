@@ -69,7 +69,7 @@
   #.(or
       #+clisp `(handler-case(ext:type-expand type)
 		 (error()(values type nil)))
-      #+sbcl `(multiple-value-bind(result condition)(ignore-errors(sb-ext:typexpand-1 type))
+      #+sbcl `(multiple-value-bind(result condition)(ignore-errors(sb-ext:typexpand type))
 		(if (or (null condition)
 			(typep condition 'condition))
 		  (values type nil)
