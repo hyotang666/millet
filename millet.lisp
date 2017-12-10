@@ -86,7 +86,8 @@
 
 (defun type-specifier-p(type)
   #.(or
-      #+sbcl `(sb-ext:valid-type-specifier-p type)
+      #+sbcl `(handler-case(sb-ext:valid-type-specifier-p type)
+		(sb-kernel:parse-unknown-type()nil))
       #+ccl `(let((it(ccl:type-specifier-p type)))
 	       (if it T NIL))
       `(labels((rec(specifier)
