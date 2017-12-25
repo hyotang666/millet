@@ -26,8 +26,10 @@
 	      (ext:compiled-function-name function))
       #+ccl `(ccl:function-name function)
       #+sbcl `(let((it(sb-kernel::%fun-name function)))
-	       (unless(typep it '(cons (eql lambda)t))
-		 it))
+	       (typecase it
+		 ((cons (eql lambda)t)nil)
+		 (list (cadr it))
+		 (t it)))
       `(nth-value 2(function-lambda-expression function)))) ; as default.
 
 (defun global-symbol-p(symbol)

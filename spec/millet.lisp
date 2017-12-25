@@ -28,6 +28,8 @@
 ; When lambda function comes, nil is returned.
 #?(function-name #'(lambda()(print :hoge)))
 => NIL
+#?(function-name (flet((test():hoge))#'test)) => TEST
+#?(function-name (labels((test():hoge))#'test)) => TEST
 
 ;;;; Exceptional-Situations:
 
