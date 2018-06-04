@@ -7,6 +7,7 @@
   :author "Shinichi Sato"
   :license "MIT"
   :components((:file "millet")))
-;; Perform method below is added by JINGOH.GENERATOR.
-(defmethod perform ((o test-op) (c (eql (find-system "millet"))))
- (test-system :millet.test))
+
+;; Push form below is added by JINGOH.GENERATOR.
+(defmethod component-depends-on((o test-op) (c (eql (find-system "millet"))))
+  (append (call-next-method)'((test-op "millet.test"))))
