@@ -28,6 +28,7 @@
       #+sbcl `(let((it(sb-kernel::%fun-name function)))
 	       (typecase it
 		 ((cons (eql lambda)t)nil)
+		 ((cons (eql setf)t)it)
 		 (list (cadr it))
 		 (t it)))
       `(nth-value 2(function-lambda-expression function)))) ; as default.
