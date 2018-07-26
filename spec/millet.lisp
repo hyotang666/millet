@@ -31,6 +31,15 @@
 #?(function-name (flet((test():hoge))#'test)) => TEST
 #?(function-name (labels((test():hoge))#'test)) => TEST
 
+; When setf function comes, (SETF NAME) is returned.
+#?(defclass foo () ((bar :accessor foo-bar)))
+=> FOO
+,:before (mapc #'fmakunbound '(foo-bar (setf foo-bar)))
+
+#?(function-name (fdefinition '(setf foo-bar)))
+=> (SETF FOO-BAR)
+,:test equal
+
 ;;;; Exceptional-Situations:
 
 (requirements-about LAMBDA-LIST)
