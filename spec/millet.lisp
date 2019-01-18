@@ -33,7 +33,8 @@
 
 ; When setf function comes, (SETF NAME) is returned.
 #?(defclass foo () ((bar :accessor foo-bar)))
-=> FOO
+:satisfies #`(& (typep $arg 'standard-class)
+		(eq 'foo (class-name $arg)))
 ,:before (mapc #'fmakunbound '(foo-bar (setf foo-bar)))
 
 #?(function-name (fdefinition '(setf foo-bar)))
