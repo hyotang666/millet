@@ -21,5 +21,5 @@ Millet covers it.
 ### License
 MIT
 ### Tested with
-SBCL/1.4.15
+SBCL/1.5.1
 CCL/1.11.5
