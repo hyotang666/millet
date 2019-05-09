@@ -60,9 +60,12 @@
       #+ecl `(ext:function-lambda-list(or(and(typep arg '(cons (eql lambda)T))
 					   (coerce arg 'function))
 					arg))
-      #+sbcl `(sb-kernel:%fun-lambda-list(or(and(symbolp arg)
-					      (macro-function arg))
-					   (coerce arg 'function)))
+      #+sbcl `(let((function(or (and (symbolp arg)
+				     (macro-function arg))
+				(coerce arg 'function))))
+		(if(typep function 'standard-generic-function)
+		  (sb-mop:generic-function-lambda-list function)
+		  (sb-kernel:%fun-lambda-list function)))
       `(not-support-warning 'lambda-list))) ; as default.
 
 (defun not-support-warning (api)
