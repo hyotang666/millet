@@ -184,6 +184,13 @@
 #?(type-specifier-p '(satisfies listp)) => T
 #?(type-specifier-p '(and list (not null))) => T
 
+;; Added due to CCL specific issue.
+#?(type-specifier-p '(keyword string)) => NIL
+
+;; When CCL is Fixed, code should be modified.
+#+ccl
+#?(type-specifier-p '(keyword string)) => T
+
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
 
