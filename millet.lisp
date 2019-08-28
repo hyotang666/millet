@@ -95,7 +95,10 @@
       #+sbcl `(handler-case(sb-ext:valid-type-specifier-p type)
 		(sb-kernel:parse-unknown-type()nil))
       #+ccl `(let((it(ccl:type-specifier-p type)))
-	       (if it T NIL))
+	       (if it
+		 (values(ignore-errors(progn (typep '#:dummy type)
+					     T)))
+		 NIL))
       `(labels((rec(specifier)
 		 (if(typep specifier '(OR (CONS (EQL AND)T)
 					  (CONS (EQL OR)T)))
