@@ -27,9 +27,7 @@
       #+ccl `(let((name
 		    (ccl:function-name function)))
 	       (etypecase name
-		 ((cons (eql :internal)
-			(cons symbol
-			      (cons symbol null)))
+		 ((cons (eql :internal) *)
 		  (second name))
 		 ((cons (eql setf)
 			(cons symbol null))
