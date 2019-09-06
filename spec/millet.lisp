@@ -189,7 +189,7 @@
 
 ;; When CCL is Fixed, code should be modified.
 #+ccl
-#?(type-specifier-p '(keyword string)) => T
+#?(ccl:type-specifier-p '(keyword string)) => KEYWORDP
 
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
