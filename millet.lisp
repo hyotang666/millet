@@ -24,7 +24,17 @@
       #+ecl `(if(eq(type-of function) 'standard-generic-function)
 	      (clos:generic-function-name function)
 	      (ext:compiled-function-name function))
-      #+ccl `(ccl:function-name function)
+      #+ccl `(let((name
+		    (ccl:function-name function)))
+	       (etypecase name
+		 ((cons (eql :internal)
+			(cons symbol
+			      (cons symbol null)))
+		  (second name))
+		 ((cons (eql setf)
+			(cons symbol null))
+		  name)
+		 (symbol name)))
       #+sbcl `(let((it(sb-kernel::%fun-name function)))
 	       (typecase it
 		 ((cons (eql lambda)t)nil)
