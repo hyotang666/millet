@@ -31,6 +31,16 @@
 #?(function-name (flet((test():hoge))#'test)) => TEST
 #?(function-name (labels((test():hoge))#'test)) => TEST
 
+; CCL specific issue. (macro) returns (:INTERNAL HOGE MACRO).
+#?(defmacro macro()
+    (flet((hoge()))
+      `',(function-name #'hoge)))
+=> MACRO
+,:before (fmakunbound 'macro)
+
+#?(macro)
+=> HOGE
+
 ; When setf function comes, (SETF NAME) is returned.
 #?(defclass foo () ((bar :accessor foo-bar)))
 :satisfies (lambda($arg)
