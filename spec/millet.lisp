@@ -46,7 +46,8 @@
 :satisfies (lambda($arg)
 	     (& (typep $arg 'standard-class)
 		(eq 'foo (class-name $arg))))
-,:before (mapc #'fmakunbound '(foo-bar (setf foo-bar)))
+,:before (progn (mapc #'fmakunbound '(foo-bar (setf foo-bar)))
+		(unintern 'foo))
 
 #?(function-name (fdefinition '(setf foo-bar)))
 => (SETF FOO-BAR)
