@@ -28,9 +28,21 @@
 ; When lambda function comes, nil is returned.
 #?(function-name #'(lambda()(print :hoge)))
 => NIL
-#?(function-name (flet((test():hoge))#'test)) => TEST
-#?(function-name (labels((test():hoge))#'test)) => TEST
 
+; When local function comes, unspecified.
+#?(function-name (flet((test():hoge))#'test)) => unspecified
+#?(function-name (labels((test():hoge))#'test)) => unspecified
+; ECL needs above spec.
+; Without compile, it works.
+#+ecl
+#?(function-name (flet((test():hoge))#'test)) => TEST
+; But with compile.
+#+ecl
+#?(function-name (compile nil (flet((test():hoge))#'test))) => NIL ; not works.
+; ECL specific two tests above are as observer.
+; When failed, MILLET needs to change spec or impl.
+
+#| Comment out since above ECL specific needs.
 ; CCL specific issue. (macro) returns (:INTERNAL HOGE MACRO).
 #?(defmacro macro()
     (flet((hoge()))
@@ -40,6 +52,7 @@
 
 #?(macro)
 => HOGE
+|#
 
 ; When setf function comes, (SETF NAME) is returned.
 #?(defclass foo () ((bar :accessor foo-bar)))
