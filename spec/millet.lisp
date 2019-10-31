@@ -54,6 +54,10 @@
 => HOGE
 |#
 
+; SBCL specific issue. FORMATTER returns e.g. "fmt$~A".
+; When FORMATTER comes, return NIL.
+#?(function-name (formatter "~A")) => NIL
+
 ; When setf function comes, (SETF NAME) is returned.
 #?(defclass foo () ((bar :accessor foo-bar)))
 :satisfies (lambda($arg)
