@@ -38,6 +38,8 @@
 		 ((cons (eql lambda)t)nil)
 		 ((cons (eql setf)t)it)
 		 (list (cadr it))
+		 (string ; formatter
+		   NIL)
 		 (t it)))
       `(nth-value 2(function-lambda-expression function)))) ; as default.
 
