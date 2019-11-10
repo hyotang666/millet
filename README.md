@@ -1,4 +1,4 @@
-# MILLET - Tiny utilities which abandoned by alexandria.
+# MILLET 0.0.9
 ## Current lisp world
 Alexandria covers many utilities.
 ## Issues
@@ -20,6 +20,7 @@ Millet covers it.
 ?
 ### License
 MIT
+
 ### Tested with
 * SBCL/1.5.8
 * CCL/1.11.5
