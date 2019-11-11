@@ -1,7 +1,7 @@
 ; vim: ft=lisp et
 (in-package :asdf)
 (defsystem :millet
-  :version "0.0.9"
+  :version "0.0.10"
   :description "Wrapper for implementation dependent tiny utilities."
   :long-description #.(uiop:read-file-string
                         (uiop:subpathname *load-pathname* "README.md"))
@@ -40,5 +40,4 @@
     (load-system system)
     (defmethod perform :after
                ((o load-op) (c (eql (find-system "resignal-bind"))))
-      (dolist (c (component-children c))
-        (symbol-call :jingoh.documentizer :import* c)))))
+      (symbol-call :jingoh.documentizer :import c))))
