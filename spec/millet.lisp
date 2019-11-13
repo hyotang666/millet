@@ -2,7 +2,7 @@
 (in-package :millet.spec)
 (setup :millet)
 
-(requirements-about FUNCTION-NAME)
+(requirements-about FUNCTION-NAME :doc-type function)
 
 ;;;; Description:
 ; accept function, return its name.
@@ -72,7 +72,7 @@
 
 ;;;; Exceptional-Situations:
 
-(requirements-about LAMBDA-LIST)
+(requirements-about LAMBDA-LIST :doc-type function)
 
 ;;;; Description:
 ; accept function, return its lambda-list
@@ -100,7 +100,7 @@
 
 ;;;; Exceptional-Situations:
 
-(requirements-about GLOBAL-SYMBOL-P)
+(requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
 ; tests arg is global-symbol or not.
@@ -130,7 +130,7 @@
 
 ;;;; Exceptional-Situations:
 
-(requirements-about SPECIAL-SYMBOL-P)
+(requirements-about SPECIAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
 ; Tests arg is special symbol or not.
@@ -158,7 +158,7 @@
 
 ;;;; Exceptional-Situations:
 
-(requirements-about TYPE-EXPAND)
+(requirements-about TYPE-EXPAND :doc-type function)
 
 ;;;; Description:
 ; expand user defined type specifier.
@@ -197,7 +197,7 @@
 
 ;;;; Exceptional-Situations:
 
-(requirements-about TYPE-SPECIFIER-P)
+(requirements-about TYPE-SPECIFIER-P :doc-type function)
 
 ;;;; Description:
 ; Tests arg is type-specifier or not.
