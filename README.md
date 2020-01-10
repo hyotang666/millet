@@ -1,4 +1,4 @@
-# MILLET 0.0.9
+# MILLET 0.0.12
 ## Current lisp world
 Alexandria covers many utilities.
 ## Issues
@@ -22,7 +22,7 @@ Millet covers it.
 MIT
 
 ### Tested with
-* SBCL/1.5.8
+* SBCL/2.0.0
 * CCL/1.11.5
 * ECL/16.1.3
 * CLISP/2.49
