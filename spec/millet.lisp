@@ -26,26 +26,26 @@
 
 ;;;; Notes:
 ; When lambda function comes, nil is returned.
-#?(function-name #'(lambda()(print :hoge)))
+#?(function-name #'(lambda () (print :hoge)))
 => NIL
 
 ; When local function comes, unspecified.
-#?(function-name (flet((test():hoge))#'test)) => unspecified
-#?(function-name (labels((test():hoge))#'test)) => unspecified
+#?(function-name (flet ((test () :hoge)) #'test)) => unspecified
+#?(function-name (labels ((test () :hoge)) #'test)) => unspecified
 ; ECL needs above spec.
 ; Without compile, it works.
 #+ecl
-#?(function-name (flet((test():hoge))#'test)) => TEST
+#?(function-name (flet ((test () :hoge)) #'test)) => TEST
 ; But with compile.
 #+ecl
-#?(function-name (compile nil (flet((test():hoge))#'test))) => NIL ; not works.
+#?(function-name (compile nil (flet ((test () :hoge)) #'test))) => NIL ; not works.
 ; ECL specific two tests above are as observer.
 ; When failed, MILLET needs to change spec or impl.
 
 #| Comment out since above ECL specific needs.
 ; CCL specific issue. (macro) returns (:INTERNAL HOGE MACRO).
-#?(defmacro macro()
-    (flet((hoge()))
+#?(defmacro macro ()
+    (flet ((hoge ()))
       `',(function-name #'hoge)))
 => MACRO
 ,:before (fmakunbound 'macro)
@@ -60,7 +60,7 @@
 
 ; When setf function comes, (SETF NAME) is returned.
 #?(defclass foo () ((bar :accessor foo-bar)))
-:satisfies (lambda($arg)
+:satisfies (lambda ($arg)
 	     (& (typep $arg 'standard-class)
 		(eq 'foo (class-name $arg))))
 ,:before (progn (mapc #'fmakunbound '(foo-bar (setf foo-bar)))
@@ -105,8 +105,8 @@
 ;;;; Description:
 ; tests arg is global-symbol or not.
 #?(global-symbol-p '*package*) => T
-#?(let(local)
-    (declare(ignore local))
+#?(let (local)
+    (declare (ignore local))
     (global-symbol-p 'local)) => NIL
 #?(global-symbol-p 'car) => NIL
 #?(global-symbol-p :key) => T
@@ -162,7 +162,7 @@
 
 ;;;; Description:
 ; expand user defined type specifier.
-#?(deftype function-name()
+#?(deftype function-name ()
     '(or function symbol))
 => FUNCTION-NAME
 #?(type-expand 'function-name) => (OR FUNCTION SYMBOL)
