@@ -38,6 +38,10 @@
 (let ((system (find-system "jingoh.documentizer" nil)))
   (when (and system (not (featurep :clisp)))
     (load-system system)
-    (defmethod perform :after
-               ((o load-op) (c (eql (find-system "millet"))))
-      (symbol-call :jingoh.documentizer :import c))))
+    (defmethod perform :after ((o load-op) (c (eql (find-system "millet"))))
+      (with-muffled-conditions (*uninteresting-conditions*)
+        (handler-case (symbol-call :jingoh.documentizer :import c)
+                      (error (condition)
+                             (warn "fails to import documentation of ~s.~%~a"
+                                   (coerce-name c)
+                                   (princ-to-string condition))))))))
