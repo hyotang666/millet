@@ -87,6 +87,8 @@
            (if (typep function 'standard-generic-function)
                (sb-mop:generic-function-lambda-list function)
                (sb-kernel:%fun-lambda-list function)))
+        #+lispworks
+        `(lw:function-lambda-list arg)
         ;; as default.
         `(not-support-warning 'lambda-list)))
 
@@ -114,6 +116,9 @@
            (if (eq expanded? type)
                (values expanded? nil)
                (values expanded? t)))
+        #+lispworks
+        `(type:expand-user-type type)
+        ;; as default.
         `(not-support-warning 'type-expand)))
 
 (defun type-specifier-p (type)
@@ -126,6 +131,9 @@
            (if it
                (values (ignore-errors (progn (typep '#:dummy type) t)))
                nil))
+        #+lispworks
+        `(type:valid-type-specifier type)
+        ;; as default.
         `(labels ((rec (specifier)
                     (if (typep specifier
                                '(or (cons (eql and) t) (cons (eql or) t)))
