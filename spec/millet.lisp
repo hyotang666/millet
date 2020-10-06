@@ -151,6 +151,11 @@
 :satisfies (lambda (result)
              (typep result '(cons symbol (cons symbol null))))
 
+; Works with formatter.
+#?(lambda-list (formatter "~A"))
+:satisfies (lambda (result)
+             (typep result '(cons symbol *)))
+
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
