@@ -110,11 +110,24 @@
                 (= 2 (length result))))
 
 ; Works with macros.
-#?(lambda-list 'when)
-:satisfies (lambda (result)
-             (& (typep result '(cons symbol
-                                     (cons (member &body &rest)
-                                           (cons symbol null))))))
+#?(defmacro test (a) `,a)
+=> TEST
+,:before (fmakunbound 'test)
+
+#?(lambda-list 'test)
+=> (A)
+,:test #'equal
+
+; Not support CL macros due to clisp can not.
+#?(lambda-list 'when) => unspecified
+
+; CLISP specific guard.
+#+clisp
+#?(typep (lambda-list (macro-function 'when))
+         '(cons symbol
+                (cons (member &body &rest)
+                      (cons symbol null))))
+=> NIL
 
 ; Works with lambda.
 #?(lambda-list (lambda (a) a))
