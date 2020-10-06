@@ -99,6 +99,32 @@
 ;;;; Notes:
 
 ;;;; Exceptional-Situations:
+; function is not defined, an error is signaled.
+#?(lambda-list 'no-such-function) :signals error
+
+;;;; Tests.
+; Works with generic-function.
+#?(lambda-list 'documentation)
+:satisfies (lambda (result)
+             (& (listp result)
+                (= 2 (length result))))
+
+; Works with macros.
+#?(lambda-list 'when)
+:satisfies (lambda (result)
+             (& (typep result '(cons symbol
+                                     (cons (member &body &rest)
+                                           (cons symbol null))))))
+
+; Works with lambda.
+#?(lambda-list (lambda (a) a))
+=> (A)
+,:test #'equal
+
+; Works with lambda-form.
+#?(lambda-list '(lambda (a) a))
+=> (A)
+,:test #'equal
 
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
