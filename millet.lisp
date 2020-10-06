@@ -105,11 +105,9 @@
            (error ()
              (values type nil)))
         #+sbcl
-        `(multiple-value-bind (result condition)
-             (ignore-errors (sb-ext:typexpand type))
-           (if (or (null condition) (typep condition 'condition))
-               (values type nil)
-               (values result t)))
+        `(handler-case (sb-ext:typexpand type)
+           (error ()
+             (values type nil)))
         #+ccl
         `(let ((expanded? (ccl::type-expand type)))
            (if (eq expanded? type)
