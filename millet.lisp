@@ -76,14 +76,16 @@
                (etypecase arg
                  (function arg)
                  ((cons (eql lambda) t) (coerce arg 'function))
-                 ((and symbol (not keyword)) arg)))
+                 ((or (and symbol (not keyword)) (cons (eql setf) *)) arg)))
            (if status
                result
                (error "No function defined: ~S" arg)))
         #+ecl
         `(ext:function-lambda-list
-           (or (and (typep arg '(cons (eql lambda) t)) (coerce arg 'function))
-               arg))
+           (typecase arg
+             ((cons (eql lambda) *) (coerce arg 'function))
+             ((cons (eql setf) *) (fdefinition arg))
+             (t arg)))
         #+sbcl
         `(let ((function
                 (or (and (symbolp arg) (macro-function arg))

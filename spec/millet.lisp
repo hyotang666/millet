@@ -146,6 +146,11 @@
 #?(lambda-list (compile nil (flet ((test (a) a)) #'test)))
 => NIL
 
+; Works with '(setf fun-name).
+#?(lambda-list '(setf foo-bar))
+:satisfies (lambda (result)
+             (typep result '(cons symbol (cons symbol null))))
+
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
