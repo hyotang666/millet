@@ -139,6 +139,13 @@
 => (A)
 ,:test #'equal
 
+; Not supported local functions due to ECL specific issue.
+#?(lambda-list (flet ((test (a) a)) #'test)) => unspecified
+; ECL specific guard.
+#+ecl
+#?(lambda-list (compile nil (flet ((test (a) a)) #'test)))
+=> NIL
+
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
