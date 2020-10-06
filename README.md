@@ -1,4 +1,4 @@
-# MILLET 0.0.12
+# MILLET 0.0.18
 ## Current lisp world
 Alexandria covers many utilities.
 ## Issues
@@ -22,7 +22,20 @@ Millet covers it.
 MIT
 
 ### Tested with
-* SBCL/2.0.2
+* SBCL/2.0.9
 * CCL/1.12
 * ECL/20.4.24
 * CLISP/2.49
+
+### Partially supported.
+#### lispworks
+
+- [ ] function-name
+- [x] lambda-list
+- [ ] global-symbol-p
+- [ ] special-symbol-p
+- [x] type-expand
+- [x] type-specifier-p
+- [ ] test
+
+Special thanks to Yehouda about #1!
