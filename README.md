@@ -15,6 +15,28 @@ Millet covers it.
 (global-symbolp 'pi) => T
 ```
 
+## Known altenatives.
+### function-name
+* clod - Autodoc generator. Internals.
+* [swank](https://github.com/slime/slime) - Backend server of SLIME. Internals.
+
+### lambda-list
+* [trivial-arguments](https://github.com/Shinmera/trivial-arguments) - Retrieve the lambda-list of a functioni. Externals.
+* clod - Autodoc generator. Internals.
+* [swank](https://github.com/slime/slime) - Backend server of SLIME. Internals.
+
+### type-specifier-p
+* [trivial-types](https://github.com/m2ym/trivial-types) - Trivial type defintions. Externals.
+* [swank](https://github.com/slime/slime) - Backend server of SLIME. Internals.
+
+### type-expand
+* [trivial-types](https://github.com/m2ym/trivial-types) - Trivial type defintions. Externals.
+* [introspect-environment](https://github.com/Bike/introspect-environment) - Portable but nonstandard introspection of CL environments. Externals.
+
+### global-symbol-p
+* [definitions](https://github.com/Shinmera/definitions) - General definitions reflection library. Internals.
+* clod - Autodoc generator. Internals.
+
 ## From developer
 ### Product's goal
 ?
