@@ -137,8 +137,7 @@
         `(type:valid-type-specifier type)
         ;; as default.
         `(labels ((rec (specifier)
-                    (if (typep specifier
-                               '(or (cons (eql and) t) (cons (eql or) t)))
+                    (if (typep specifier '(cons (member and or) *))
                         (every #'rec (cdr specifier))
                         (values (ignore-errors
                                  (progn (typep '#:dummy specifier) t))))))
