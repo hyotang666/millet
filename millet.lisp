@@ -71,11 +71,15 @@
         #+clisp
         `(ext:arglist arg)
         #+ccl
-        `(ccl:arglist
-           (etypecase arg
-             (function arg)
-             ((cons (eql lambda) t) (coerce arg 'function))
-             ((and symbol (not keyword)) arg)))
+        `(multiple-value-bind (result status)
+             (ccl:arglist
+               (etypecase arg
+                 (function arg)
+                 ((cons (eql lambda) t) (coerce arg 'function))
+                 ((and symbol (not keyword)) arg)))
+           (if status
+               result
+               (error "No function defined: ~S" arg)))
         #+ecl
         `(ext:function-lambda-list
            (or (and (typep arg '(cons (eql lambda) t)) (coerce arg 'function))
