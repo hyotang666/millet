@@ -16,7 +16,7 @@
 
 (defun function-name (function)
   (check-type function function)
-  #.(or ; to avoid write #-(or ...) ; be care to quote!
+  #.(or ; to avoid write #-(or ...) be care to quote!
         #+clisp
         `(let ((it (sys::function-name function)))
            (etypecase it
@@ -51,7 +51,7 @@
 
 (defun global-symbol-p (symbol)
   (check-type symbol symbol)
-  #.(or ; to avoid write #-(or ...) ; be care to quote!
+  #.(or ; to avoid write #-(or ...) be care to quote!
         #+clisp
         `(ext:special-variable-p symbol)
         #+ccl
@@ -142,6 +142,6 @@
                     (if (typep specifier
                                '(or (cons (eql and) t) (cons (eql or) t)))
                         (every #'rec (cdr specifier))
-                        (values
-                          (ignore-errors (progn (typep '#:dummy specifier) t))))))
+                        (values (ignore-errors
+                                 (progn (typep '#:dummy specifier) t))))))
            (rec type))))
