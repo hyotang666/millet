@@ -333,6 +333,10 @@
 #+ecl ; Guard for ECL.
 #?(typep nil (make-struct)) => NIL
 
+;; ECL specific issue. Already issued in gitlab.
+#+ecl
+#?(typep nil '(t 0)) => T
+
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
 
