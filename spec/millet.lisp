@@ -156,6 +156,56 @@
 :satisfies (lambda (result)
              (typep result '(cons symbol *)))
 
+; Not works with complement.
+#?(lambda-list (complement #'car))
+=> unspecified
+; Due to in SBCL, lambda list will change after compile.
+; Before compile (&REST SB-IMPLE::ARGUMENTS)
+; After compile (#:G1).
+#+sbcl
+#?(lambda-list (complement #'car))
+:satisfies (lambda (result)
+             (typep result '(cons (eql &rest) (cons symbol null))))
+,:lazy t
+#+sbcl
+#?(lambda-list (complement #'car))
+:satisfies (lambda (result)
+             (typep result '(cons symbol null)))
+#+ecl
+#?(lambda-list (complement #'car))
+=> NIL
+
+; Not works with constantly due to ccl could not.
+#?(lambda-list (constantly nil))
+=> unspecified
+
+#+ccl ; Guard for ccl.
+#?(lambda-list (constantly nil))
+=> NIL
+
+; Not works with funcallable-standard-class
+#?(defclass fun ()
+    ()
+    (:metaclass c2mop:funcallable-standard-class))
+:be-the c2mop:funcallable-standard-class
+
+#?(let ((fun (make-instance 'fun)))
+    (c2mop:set-funcallable-instance-function fun #'car)
+    (lambda-list fun))
+=> unspecified
+
+#+ccl ; Guard for ccl.
+#?(let ((fun (make-instance 'fun)))
+    (c2mop:set-funcallable-instance-function fun #'car)
+    (lambda-list fun))
+=> NIL
+
+#+ecl ; Guard for ECL.
+#?(let ((fun (make-instance 'fun)))
+    (c2mop:set-funcallable-instance-function fun #'car)
+    (lambda-list fun))
+:signals error
+
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
