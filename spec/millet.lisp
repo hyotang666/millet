@@ -325,6 +325,14 @@
 #+ccl
 #?(ccl:type-specifier-p '(keyword string)) => KEYWORDP
 
+;; Added due to ECL specific issue.
+#?(defstruct (struct (:copier nil) (:predicate nil))) => STRUCT
+,:before (fmakunbound 'make-struct)
+#?(type-specifier-p (make-struct)) => NIL
+
+#+ecl ; Guard for ECL.
+#?(typep nil (make-struct)) => NIL
+
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
 
