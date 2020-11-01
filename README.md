@@ -46,7 +46,7 @@ MIT
 ### Tested with
 * SBCL/2.0.9
 * CCL/1.12
-* ECL/20.4.24
+* ECL/20.4.24 ; Failed.
 * CLISP/2.49
 
 ### Partially supported.
@@ -61,3 +61,15 @@ MIT
 - [ ] test
 
 Special thanks to Yehouda about #1!
+
+### Known issues.
+#### FUNCTION-NAME
+* Local function name is not supported due to ECL specific issue.
+#### LAMBDA-LIST
+* Common Lisp macro is not supported due to CLISP specific issue.
+* Local function is not supported due to ECL specific issue.
+* The function which is returned from `CL:COMPLEMENT` is not supported due to SBCL and ECL specific issue.
+* The function which is returned from `CL:CONSTANTLY` is not supported due to CCL and ECL specific issue.
+* Funcallable standard class is not supported due to CCL and ECL specific issue.
+#### TYPE-SPECIFIER-P
+* ECL has [issue](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/570)
