@@ -49,6 +49,14 @@
         ;; as default.
         `(nth-value 2 (function-lambda-expression function))))
 
+(defun not-support (api)
+  (error "~S is not implemented in ~A" api uiop:*implementation-type*))
+
+(define-compiler-macro not-support (&whole whole api &environment env)
+  (when (constantp api env)
+    (warn "~S is not implemented in ~A" (eval api) uiop:*implementation-type*))
+  whole)
+
 (defun global-symbol-p (symbol)
   (check-type symbol symbol)
   #.(or ; to avoid write #-(or ...) be care to quote!
@@ -61,7 +69,7 @@
         #+ecl
         `(or (constantp symbol) (walker:variable-special-p symbol nil))
         ;; as default.
-        `(not-support-warning 'global-symbol-p)))
+        `(not-support 'global-symbol-p)))
 
 (defun special-symbol-p (symbol)
   (and (global-symbol-p symbol) (not (constantp symbol))))
@@ -96,10 +104,7 @@
         #+lispworks
         `(lw:function-lambda-list arg)
         ;; as default.
-        `(not-support-warning 'lambda-list)))
-
-(defun not-support-warning (api)
-  (warn "~S is not implemented in ~A" api uiop/os:*implementation-type*))
+        `(not-support 'lambda-list)))
 
 (defun type-expand (type)
   #.(or #+clisp
@@ -123,7 +128,7 @@
         #+lispworks
         `(type:expand-user-type type)
         ;; as default.
-        `(not-support-warning 'type-expand)))
+        `(not-support 'type-expand)))
 
 (defun type-specifier-p (type)
   #.(or #+sbcl
