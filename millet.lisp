@@ -69,7 +69,9 @@
         #+ecl
         `(or (constantp symbol) (walker:variable-special-p symbol nil))
         ;; as default.
-        `(not-support 'global-symbol-p)))
+        `(progn
+          symbol ; to muffle unused warning.
+          (not-support 'global-symbol-p))))
 
 (defun special-symbol-p (symbol)
   (and (global-symbol-p symbol) (not (constantp symbol))))
@@ -104,7 +106,9 @@
         #+lispworks
         `(lw:function-lambda-list arg)
         ;; as default.
-        `(not-support 'lambda-list)))
+        `(progn
+          arg ; to muffle unused warning.
+          (not-support 'lambda-list))))
 
 (defun type-expand (type)
   #.(or #+clisp
@@ -128,7 +132,9 @@
         #+lispworks
         `(type:expand-user-type type)
         ;; as default.
-        `(not-support 'type-expand)))
+        `(progn
+          type ; to muffle unused warning.
+          (not-support 'type-expand))))
 
 (defun type-specifier-p (type)
   #.(or #+sbcl
