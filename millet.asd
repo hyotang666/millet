@@ -5,7 +5,9 @@
   :description "Wrapper for implementation dependent tiny utilities."
   :long-description #.(uiop:read-file-string
                         (uiop:subpathname *load-pathname* "README.md"))
-  :author "Shinichi Sato"
+  :source-control (:git "git@github.com:hyotang666/millet")
+  :bug-tracker "https://github.com/hyotang666/millet/issues"
+  :author "SATO Shinichi"
   :license "MIT"
   :components((:file "millet")))
 
