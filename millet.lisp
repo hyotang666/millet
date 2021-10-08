@@ -11,6 +11,9 @@
 
 (in-package :millet)
 
+(defun incomplete (api)
+  (warn "~S is incomplete in ~S." api uiop:*implementation-type*))
+
 ;;; FUNCTION-LAMBDA-EXPRESSION sometimes fail to return function name.
 ;;; especially when hard optimization is specified.
 
@@ -135,6 +138,9 @@
         `(progn
           type ; to muffle unused warning.
           (not-support 'type-expand))))
+
+#+ecl
+(eval-when (:load-toplevel) (incomplete 'type-specifier-p))
 
 (defun type-specifier-p (type)
   #.(or #+sbcl
