@@ -49,6 +49,9 @@
              (list (cadr it))
              (string nil) ; formatter
              (t it)))
+        #+allegro
+        `(let ((name? (nth-value 2 (function-lambda-expression function))))
+           (typecase name? ((cons (eql :internal)) nil) (otherwise name?)))
         ;; as default.
         `(nth-value 2 (function-lambda-expression function))))
 
@@ -71,6 +74,8 @@
         `(or (constantp symbol) (sb-walker:var-globally-special-p symbol))
         #+ecl
         `(or (constantp symbol) (walker:variable-special-p symbol nil))
+        #+allegro
+        `(or (constantp symbol) (excl::variable-special-p symbol nil))
         ;; as default.
         `(progn
           symbol ; to muffle unused warning.
@@ -108,6 +113,10 @@
                (sb-kernel:%fun-lambda-list function)))
         #+lispworks
         `(lw:function-lambda-list arg)
+        #+allegro
+        `(typecase arg
+           ((cons (eql lambda)) (second arg))
+           (otherwise (excl:arglist arg)))
         ;; as default.
         `(progn
           arg ; to muffle unused warning.
@@ -134,6 +143,11 @@
                (values expanded? t)))
         #+lispworks
         `(type:expand-user-type type)
+        #+allegro
+        `(let ((expand? (excl::deftype-expand type)))
+           (if (eq expand? type)
+               (values expand? nil)
+               (values expand? t)))
         ;; as default.
         `(progn
           type ; to muffle unused warning.
