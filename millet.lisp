@@ -12,7 +12,7 @@
 (in-package :millet)
 
 (defun incomplete (api)
-  (warn "~S is incomplete in ~S." api uiop:*implementation-type*))
+  (warn "~S is incomplete in ~S." api (lisp-implementation-type)))
 
 ;;; FUNCTION-LAMBDA-EXPRESSION sometimes fail to return function name.
 ;;; especially when hard optimization is specified.
@@ -53,11 +53,11 @@
         `(nth-value 2 (function-lambda-expression function))))
 
 (defun not-support (api)
-  (error "~S is not implemented in ~A" api uiop:*implementation-type*))
+  (error "~S is not implemented in ~A" api (lisp-implementation-type)))
 
 (define-compiler-macro not-support (&whole whole api &environment env)
   (when (constantp api env)
-    (warn "~S is not implemented in ~A" (eval api) uiop:*implementation-type*))
+    (warn "~S is not implemented in ~A" (eval api) (lisp-implementation-type)))
   whole)
 
 (defun global-symbol-p (symbol)
