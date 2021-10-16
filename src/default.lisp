@@ -5,8 +5,8 @@
     (if (fboundp
           (or (find-symbol (string symbol) (find-package :millet))
               (error "Missing ~S." symbol)))
-        '(and)
-        '(or))))
+        '(:and)
+        '(:or))))
 
 #-#.(millet::already-defined-p :function-name)
 (defun function-name (function)
