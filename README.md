@@ -45,6 +45,7 @@ MIT
 * Allegro/10.1
 * CLASP/2021-05-26 ; Failed.
 * CMUCL/21D
+* ABCL/1.8.0
 
 ### Partially supported.
 #### lispworks
