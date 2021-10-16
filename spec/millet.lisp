@@ -206,6 +206,14 @@
     (lambda-list fun))
 :signals error
 
+#+clasp ; Guard for clasp.
+#?(let ((fun (make-instance 'fun)))
+    (c2mop:set-funcallable-instance-function fun #'car)
+    (lambda-list fun))
+:satisfies (lambda (result)
+	     (& (symbolp result)
+		(equal "UNBOUND" (symbol-name result))))
+
 (requirements-about GLOBAL-SYMBOL-P :doc-type function)
 
 ;;;; Description:
@@ -336,7 +344,7 @@
 ;; Added due to ECL specific issue. Already issued in gitlab.
 #?(type-specifier-p '(t 0)) => NIL
 
-#+ecl ; Guard for ECL.
+#+(or ecl clasp) ; Guard for ECL.
 #?(typep nil '(t 0)) => T
 
 #+syntax

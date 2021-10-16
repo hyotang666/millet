@@ -52,6 +52,9 @@
         #+allegro
         `(let ((name? (nth-value 2 (function-lambda-expression function))))
            (typecase name? ((cons (eql :internal)) nil) (otherwise name?)))
+        #+clasp
+        `(let ((name? (ext:compiled-function-name function)))
+           (typecase name? ((cons (eql lambda)) nil) (t name?)))
         ;; as default.
         `(nth-value 2 (function-lambda-expression function))))
 
@@ -76,6 +79,8 @@
         `(or (constantp symbol) (walker:variable-special-p symbol nil))
         #+allegro
         `(or (constantp symbol) (excl::variable-special-p symbol nil))
+        #+clasp
+        `(or (constantp symbol) (ext:specialp symbol))
         ;; as default.
         `(progn
           symbol ; to muffle unused warning.
@@ -117,6 +122,10 @@
         `(typecase arg
            ((cons (eql lambda)) (second arg))
            (otherwise (excl:arglist arg)))
+        #+clasp
+        `(typecase arg
+           ((cons (eql lambda)) (second arg))
+           (otherwise (ext:function-lambda-list (coerce arg 'function))))
         ;; as default.
         `(progn
           arg ; to muffle unused warning.
@@ -148,12 +157,17 @@
            (if (eq expand? type)
                (values expand? nil)
                (values expand? t)))
+        #+clasp
+        `(let ((expander (ext:type-expander type)))
+           (if expander
+               (values (funcall expander nil type) t)
+               (values type nil)))
         ;; as default.
         `(progn
           type ; to muffle unused warning.
           (not-support 'type-expand))))
 
-#+ecl
+#+(or ecl clasp)
 (eval-when (:load-toplevel) (incomplete 'type-specifier-p))
 
 (defun type-specifier-p (type)

@@ -1,7 +1,7 @@
 ; vim: ft=lisp et
 (in-package :asdf)
 (defsystem :millet.test
-  :version "1.0.12"
+  :version "1.0.13"
   :depends-on
   (:jingoh
     "millet"
