@@ -37,7 +37,7 @@
 #+ecl
 #?(function-name (flet ((test () :hoge)) #'test)) => TEST
 ; But with compile.
-#+ecl
+#+(or ecl abcl)
 #?(function-name (compile nil (flet ((test () :hoge)) #'test))) => NIL ; not works.
 ; ECL specific two tests above are as observer.
 ; When failed, MILLET needs to change spec or impl.
@@ -175,7 +175,7 @@
 #?(lambda-list (complement #'car))
 :satisfies (lambda (result)
              (typep result '(cons symbol null)))
-#+ecl
+#+(or ecl abcl)
 #?(lambda-list (complement #'car))
 => NIL
 
@@ -183,7 +183,7 @@
 #?(lambda-list (constantly nil))
 => unspecified
 
-#+(or ccl cmu) ; Guard for ccl.
+#+(or ccl cmu abcl) ; Guard for ccl.
 #?(lambda-list (constantly nil))
 => NIL
 
@@ -198,7 +198,7 @@
     (lambda-list fun))
 => unspecified
 
-#+ccl ; Guard for ccl.
+#+(or ccl abcl) ; Guard for ccl.
 #?(let ((fun (make-instance 'fun)))
     (c2mop:set-funcallable-instance-function fun #'car)
     (lambda-list fun))

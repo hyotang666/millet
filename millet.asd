@@ -1,7 +1,7 @@
 ; vim: ft=lisp et
 (in-package :asdf)
 (defsystem :millet
-  :version "0.3.1"
+  :version "0.4.0"
   :description "Wrapper for implementation dependent tiny utilities."
   :long-description #.(uiop:read-file-string
                         (uiop:subpathname *load-pathname* "README.md"))
@@ -20,6 +20,7 @@
               (:file "clasp" :if-feature :clasp)
               (:file "lispworks" :if-feature :lispworks)
               (:file "cmu" :if-feature :cmu)
+              (:file "abcl" :if-feature :abcl)
               (:file "default")))
 
 ;;; These forms below are added by JINGOH.GENERATOR.
