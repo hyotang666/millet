@@ -9,7 +9,18 @@
   :bug-tracker "https://github.com/hyotang666/millet/issues"
   :author "SATO Shinichi"
   :license "MIT"
-  :components((:file "millet")))
+  :serial t
+  :pathname "src"
+  :components((:file "package")
+              (:file "sbcl" :if-feature :sbcl)
+              (:file "clisp" :if-feature :clisp)
+              (:file "ecl" :if-feature :ecl)
+              (:file "ccl" :if-feature :ccl)
+              (:file "allegro" :if-feature :allegro)
+              (:file "clasp" :if-feature :clasp)
+              (:file "lispworks" :if-feature :lispworks)
+              (:file "cmu" :if-feature :cmu)
+              (:file "default")))
 
 ;;; These forms below are added by JINGOH.GENERATOR.
 ;; Ensure in ASDF for pretty printings.

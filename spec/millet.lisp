@@ -41,6 +41,10 @@
 #?(function-name (compile nil (flet ((test () :hoge)) #'test))) => NIL ; not works.
 ; ECL specific two tests above are as observer.
 ; When failed, MILLET needs to change spec or impl.
+#+cmu
+#?(function-name (compile nil (flet ((test () :hoge)) #'test))) => "LAMBDA NIL"
+,:test equal
+; not works.
 
 #| Comment out since above ECL specific needs.
 ; CCL specific issue. (macro) returns (:INTERNAL HOGE MACRO).
@@ -179,7 +183,7 @@
 #?(lambda-list (constantly nil))
 => unspecified
 
-#+ccl ; Guard for ccl.
+#+(or ccl cmu) ; Guard for ccl.
 #?(lambda-list (constantly nil))
 => NIL
 
