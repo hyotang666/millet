@@ -1,11 +1,5 @@
 # MILLET 0.0.18
-## Current lisp world
-Alexandria covers many utilities.
-## Issues
-Alexandria says never use implementation dependent features.
-But some utilities need to depend on it.
-## Proposal
-Millet covers it.
+Wrapper of implementation dependent tiny utilities.
 
 ## Usage
 
@@ -50,6 +44,7 @@ MIT
 * CLISP/2.49
 * Allegro/10.1
 * CLASP/2021-05-26 ; Failed.
+* CMUCL/21D
 
 ### Partially supported.
 #### lispworks
@@ -66,12 +61,12 @@ Special thanks to Yehouda about #1!
 
 ### Known issues.
 #### FUNCTION-NAME
-* Local function name is not supported due to ECL specific issue.
+* Local function name is not supported due to ECL and CMUCL specific issue.
 #### LAMBDA-LIST
 * Common Lisp macro is not supported due to CLISP and CLASP specific issue.
 * Local function is not supported due to ECL specific issue.
 * The function which is returned from `CL:COMPLEMENT` is not supported due to SBCL and ECL specific issue.
-* The function which is returned from `CL:CONSTANTLY` is not supported due to CCL and ECL specific issue.
+* The function which is returned from `CL:CONSTANTLY` is not supported due to CCL and ECL and CMUCL specific issue.
 * Funcallable standard class is not supported due to CCL and ECL and CLASP specific issue.
 #### TYPE-SPECIFIER-P
 * ECL has [issue](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/570)
