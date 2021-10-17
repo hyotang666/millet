@@ -5,10 +5,13 @@
 (defun function-name (function)
   (cond
     ((eval:interpreted-function-p function)
-     (eval:interpreted-function-name function))
+     (let ((name? (eval:interpreted-function-name function)))
+       (typecase name? (string nil) (otherwise name?))))
     ((pcl::generic-function-p function) (pcl::generic-function-name function))
     ((c::byte-function-or-closure-p function) (c::byte-function-name function))
-    (t (kernel:%function-name (kernel:%function-self function)))))
+    (t
+     (let ((name? (kernel:%function-name (kernel:%function-self function))))
+       (typecase name? (string nil) (otherwise name?))))))
 
 (defun lambda-list (arg)
   (etypecase arg

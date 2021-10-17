@@ -41,10 +41,12 @@
 #?(function-name (compile nil (flet ((test () :hoge)) #'test))) => NIL ; not works.
 ; ECL specific two tests above are as observer.
 ; When failed, MILLET needs to change spec or impl.
+#| Comment out due to error "Defined in a non-null environment.
 #+cmu
 #?(function-name (compile nil (flet ((test () :hoge)) #'test))) => "LAMBDA NIL"
 ,:test equal
 ; not works.
+|#
 
 #| Comment out since above ECL specific needs.
 ; CCL specific issue. (macro) returns (:INTERNAL HOGE MACRO).
@@ -192,6 +194,7 @@
     ()
     (:metaclass c2mop:funcallable-standard-class))
 :be-the c2mop:funcallable-standard-class
+,:ignore-signals warning ; cmu needs.
 
 #?(let ((fun (make-instance 'fun)))
     (c2mop:set-funcallable-instance-function fun #'car)
