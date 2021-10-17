@@ -173,34 +173,6 @@
         (values expand? t))))
 
 (defun type-specifier-p (specifier)
-  (handler-case (kernel:specifier-type specifier)
-    (error ())
-    (:no-error (specifier-type)
-      (labels ((unknown-type-specifier-p (specifier-type)
-                 (typecase specifier-type
-                   (kernel:unknown-type t)
-                   (kernel:union-type
-                    (find-if #'unknown-type-specifier-p
-                             (kernel:union-type-types specifier-type)))
-                   (kernel:intersection-type
-                    (find-if #'unknown-type-specifier-p
-                             (kernel:intersection-type-types specifier-type)))
-                   (kernel:negation-type
-                    (unknown-type-specifier-p
-                      (kernel:negation-type-type specifier-type)))
-                   (t nil))))
-        (typecase specifier-type
-          (kernel:unknown-type nil)
-          (kernel:union-type
-           (not
-             (find-if #'unknown-type-specifier-p
-                      (kernel:union-type-types specifier-type))))
-          (kernel:intersection-type
-           (not
-             (find-if #'unknown-type-specifier-p
-                      (kernel:intersection-type-types specifier-type))))
-          (kernel:negation-type
-           (not
-             (unknown-type-specifier-p
-               (kernel:negation-type-type specifier-type))))
-          (otherwise t))))))
+  (handler-case (progn (kernel:specifier-type specifier) t)
+    ((or error kernel:parse-unknown-type) ()
+      nil)))
