@@ -32,11 +32,12 @@
 (defun type-specifier-p (type)
   (labels ((rec (specifier)
              (cond
-               ((typep specifier '(cons (member and or) *))
+               ((typep specifier '(cons (member and or not)))
                 (every #'rec (cdr specifier)))
                ;; At least ECL needs.
-               ((or (symbolp specifier)
-                    (consp specifier)
+               ((or (and (symbolp specifier)
+			 (not (keywordp specifier)))
+		    (consp specifier)
                     (typep specifier 'standard-class))
                 (values (ignore-errors (progn (typep '#:dummy specifier) t))))
                (t nil))))

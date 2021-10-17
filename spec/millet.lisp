@@ -37,7 +37,7 @@
 #+ecl
 #?(function-name (flet ((test () :hoge)) #'test)) => TEST
 ; But with compile.
-#+(or ecl abcl)
+#+(or ecl #|abcl|#)
 #?(function-name (compile nil (flet ((test () :hoge)) #'test))) => NIL ; not works.
 ; ECL specific two tests above are as observer.
 ; When failed, MILLET needs to change spec or impl.

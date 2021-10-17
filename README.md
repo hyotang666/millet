@@ -45,7 +45,7 @@ MIT
 * Allegro/10.1
 * CLASP/2021-05-26 ; Failed.
 * CMUCL/21D
-* ABCL/1.8.0
+* ABCL/1.8.0 ; Failed.
 
 ### Partially supported.
 #### lispworks
@@ -59,6 +59,15 @@ MIT
 - [ ] test
 
 Special thanks to Yehouda about #1!
+
+#### ABCL
+
+- [x] function-name
+- [x] lambda-list
+- [x] global-symbol-p
+- [x] special-symbol-p
+- [x] type-expand
+- [ ] type-specifier-p
 
 ### Known issues.
 #### FUNCTION-NAME

@@ -23,4 +23,18 @@
         (values specifier nil)
         (values expand? t))))
 
+(defun type-specifier-p (type)
+  (labels ((rec (specifier)
+             (cond
+               ((typep specifier '(cons (member and or not)))
+                (every #'rec (cdr specifier)))
+	       ((and (symbolp specifier)
+		     (not (keywordp specifier)))
+		(system:known-type-p specifier))
+	       ((typep specifier 'standard-class) t)
+               ((consp specifier)
+                (values (ignore-errors (progn (typep '#:dummy specifier) t))))
+               (t nil))))
+    (rec type)))
+
 (eval-when (:load-toplevel) (incomplete 'type-specifier-p))
