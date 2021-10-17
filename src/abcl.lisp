@@ -30,7 +30,7 @@
                 (every #'rec (cdr specifier)))
 	       ((and (symbolp specifier)
 		     (not (keywordp specifier)))
-		(system:known-type-p specifier))
+		(system::known-type-p specifier))
 	       ((typep specifier 'standard-class) t)
                ((consp specifier)
                 (values (ignore-errors (progn (typep '#:dummy specifier) t))))
