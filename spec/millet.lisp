@@ -351,6 +351,11 @@
 #+(or ecl clasp) ; Guard for ECL.
 #?(typep nil '(t 0)) => T
 
+;; Cornercase: CMUCL needs.
+#?(type-specifier-p '(or bit unknown)) => NIL
+#?(type-specifier-p '(not unknown)) => NIL
+#?(type-specifier-p '(and bit unknown)) => NIL
+
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
 
