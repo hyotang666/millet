@@ -176,13 +176,31 @@
   (handler-case (kernel:specifier-type specifier)
     (error ())
     (:no-error (specifier-type)
-      (typecase specifier-type
-        (kernel:unknown-type nil)
-        (kernel:union-type
-         (every #'type-specifier-p (kernel:union-type-types specifier-type)))
-        (kernel:intersection-type
-         (every #'type-specifier-p
-                (kernel:intersection-type-types specifier-type)))
-        (kernel:negation-type
-         (type-specifier-p (kernel:negation-type-type specifier-type)))
-        (otherwise t)))))
+      (labels ((unknown-type-specifier-p (specifier-type)
+                 (typecase specifier-type
+                   (kernel:unknown-type t)
+                   (kernel:union-type
+                    (find-if #'unknown-type-specifier-p
+                             (kernel:union-type-types specifier-type)))
+                   (kernel:intersection-type
+                    (find-if #'unknown-type-specifier-p
+                             (kernel:intersection-type-types specifier-type)))
+                   (kernel:negation-type
+                    (unknown-type-specifier-p
+                      (kernel:negation-type-type specifier-type)))
+                   (t nil))))
+        (typecase specifier-type
+          (kernel:unknown-type nil)
+          (kernel:union-type
+           (not
+             (find-if #'unknown-type-specifier-p
+                      (kernel:union-type-types specifier-type))))
+          (kernel:intersection-type
+           (not
+             (find-if #'unknown-type-specifier-p
+                      (kernel:intersection-type-types specifier-type))))
+          (kernel:negation-type
+           (not
+             (unknown-type-specifier-p
+               (kernel:negation-type-type specifier-type))))
+          (otherwise t))))))

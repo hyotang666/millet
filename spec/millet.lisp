@@ -353,8 +353,12 @@
 
 ;; Cornercase: CMUCL needs.
 #?(type-specifier-p '(or bit unknown)) => NIL
+#?(type-specifier-p '(or bit symbol)) => T
 #?(type-specifier-p '(not unknown)) => NIL
+#?(type-specifier-p '(not symbol)) => T
 #?(type-specifier-p '(and bit unknown)) => NIL
+#?(type-specifier-p '(and vector string)) => T
+#?(type-specifier-p 'keyword) => T
 
 #+syntax
 (TYPE-SPECIFIER-P type) ; => result
