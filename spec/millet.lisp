@@ -332,6 +332,9 @@
 #?(type-specifier-p '(eql 4)) => T
 #?(type-specifier-p '(satisfies listp)) => T
 #?(type-specifier-p '(and list (not null))) => T
+#?(type-specifier-p t) => T
+#?(type-specifier-p nil) => T
+#?(type-specifier-p 'structure-object) => T
 
 ;; Added due to CCL specific issue.
 #?(type-specifier-p '(keyword string)) => NIL
@@ -344,6 +347,7 @@
 #?(defstruct (struct (:copier nil) (:predicate nil))) => STRUCT
 ,:before (fmakunbound 'make-struct)
 #?(type-specifier-p (make-struct)) => NIL
+#?(type-specifier-p 'struct) => T
 
 #+ecl ; Guard for ECL.
 #?(typep nil (make-struct)) => NIL
