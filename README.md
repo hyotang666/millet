@@ -38,7 +38,7 @@ Wrapper of implementation dependent tiny utilities.
 MIT
 
 ### Tested with
-* SBCL/2.0.9
+* SBCL/2.1.10
 * CCL/1.12
 * ECL/20.4.24 ; Failed.
 * CLISP/2.49
