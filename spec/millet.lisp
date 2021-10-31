@@ -308,6 +308,10 @@
 :values (SYMBOL
 	 NIL)
 
+#?(type-expand '(function-name invalid form))
+:values ((FUNCTION-NAME INVALID FORM)
+	 NIL)
+
 ;;;; Affected By:
 ; none
 
