@@ -78,6 +78,8 @@ Special thanks to Yehouda about #1!
 * The function which is returned from `CL:COMPLEMENT` is not supported due to SBCL and ECL specific issue.
 * The function which is returned from `CL:CONSTANTLY` is not supported due to CCL and ECL and CMUCL specific issue.
 * Funcallable standard class is not supported due to CCL and ECL and CLASP specific issue.
+#### TYPE-EXPAND
+* ECL get false positive when invalid type specifier form comes.
 #### TYPE-SPECIFIER-P
 * ECL has [issue](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/570)
 * CLASP has same issue.
