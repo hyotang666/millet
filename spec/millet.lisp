@@ -354,6 +354,7 @@
 
 ;; Added due to ECL specific issue. Already issued in gitlab.
 #?(type-specifier-p '(t 0)) => NIL
+#?(type-specifier-p '(function-name invalid specifier form)) => NIL
 
 #+(or ecl clasp) ; Guard for ECL.
 #?(typep nil '(t 0)) => T
