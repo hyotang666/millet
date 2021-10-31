@@ -52,13 +52,38 @@
       `(defun ,(mark-as-default 'type-specifier-p) (type)
          (labels ((rec (specifier)
                     (cond
-                      ((typep specifier '(cons (member and or not)))
-                       (every #'rec (cdr specifier)))
-                      ;; At least ECL needs.
-                      ((or (and (symbolp specifier) (not (keywordp specifier)))
-                           (consp specifier)
-                           (typep specifier 'standard-class))
-                       (values (ignore-errors
-                                (progn (typep '#:dummy specifier) t))))
-                      (t nil))))
-           (rec type))))
+                      ((symbolp specifier)
+                       (and (not (keywordp specifier))
+                            (values (ignore-errors
+                                     (progn (typep '#:dummy specifier) t)))))
+                      ((typep specifier '(cons (eql not)))
+                       (and (null (cddr specifier))
+                            (type-specifier-p (expand (cadr specifier)))))
+                      ((typep specifier '(cons (member and or)))
+                       (loop :for spec :in (cdr specifier)
+                             :always (rec (expand spec))))
+                      ((typep specifier 'standard-class))
+                      ((consp specifier)
+                       (typecase specifier
+                         ((cons
+                            (member array base-string bit-vector complex cons
+                                    double-float float integer long-float mod
+                                    rational real short-float signed-byte
+                                    simple-array simple-base-string
+                                    simple-bit-vector simple-string
+                                    simple-vector single-float string
+                                    unsigned-byte vector))
+                          (values (ignore-errors
+                                   (progn (typep '#:dummy specifier) t))))
+                         ((cons (eql satisfies) (cons symbol null))
+                          (and (fboundp (cadr specifier)) t))
+                         ((cons (eql eql) (cons t null)) t)
+                         ((cons (eql member)) t)))
+                      (t nil)))
+                  (expand (type)
+                    (multiple-value-bind (specifier expanded?)
+                        (type-expand type)
+                      (if expanded?
+                          (expand specifier)
+                          specifier))))
+           (rec (expand type)))))

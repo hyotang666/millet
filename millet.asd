@@ -1,7 +1,7 @@
 ; vim: ft=lisp et
 (in-package :asdf)
 (defsystem :millet
-  :version "0.4.12"
+  :version "0.4.13"
   :description "Wrapper for implementation dependent tiny utilities."
   :long-description #.(uiop:read-file-string
                         (uiop:subpathname *load-pathname* "README.md"))
