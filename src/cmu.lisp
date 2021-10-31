@@ -170,7 +170,10 @@
 (defun special-symbol-p (symbol) (walker:variable-globally-special-p symbol))
 
 (defun type-expand (type)
-  (let ((expand? (kernel:type-expand type)))
+  (let ((expand?
+         (handler-case (kernel:type-expand type)
+           (lisp::defmacro-ll-arg-count-error ()
+             type))))
     (if (eq expand? type)
         (values type nil)
         (values expand? t))))

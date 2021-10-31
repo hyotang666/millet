@@ -18,7 +18,10 @@
   (and (global-symbol-p symbol) (not (constantp symbol))))
 
 (defun type-expand (specifier)
-  (let ((expand? (system::expand-deftype specifier)))
+  (let ((expand?
+         (handler-case (system::expand-deftype specifier)
+           (program-error ()
+             specifier))))
     (if (eq expand? specifier)
         (values specifier nil)
         (values expand? t))))

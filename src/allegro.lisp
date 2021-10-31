@@ -14,7 +14,10 @@
     (otherwise (excl:arglist arg))))
 
 (defun type-expand (type)
-  (let ((expand? (excl::deftype-expand type)))
+  (let ((expand?
+         (handler-case (excl::deftype-expand type)
+           (program-error ()
+             type))))
     (if (eq expand? type)
         (values expand? nil)
         (values expand? t))))

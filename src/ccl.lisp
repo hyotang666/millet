@@ -22,7 +22,10 @@
         (error "No function defined: ~S" arg))))
 
 (defun type-expand (type)
-  (let ((expanded? (ccl::type-expand type)))
+  (let ((expanded?
+         (handler-case (ccl::type-expand type)
+           (program-error ()
+             type))))
     (if (eq expanded? type)
         (values expanded? nil)
         (values expanded? t))))
