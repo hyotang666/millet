@@ -47,8 +47,20 @@
                       (system::known-type-p specifier))))
                ((typep specifier 'standard-class) t)
                ((consp specifier)
-                (values (ignore-errors (progn (typep '#:dummy specifier) t))))
+                       (typecase specifier
+                         ((cons
+                            (member array base-string bit-vector complex cons
+                                    double-float float integer long-float mod
+                                    rational real short-float signed-byte
+                                    simple-array simple-base-string
+                                    simple-bit-vector simple-string
+                                    simple-vector single-float string
+                                    unsigned-byte vector))
+                          (values (ignore-errors
+                                   (progn (typep '#:dummy specifier) t))))
+                         ((cons (eql satisfies) (cons symbol null))
+                          (and (fboundp (cadr specifier)) t))
+                         ((cons (eql eql) (cons t null)) t)
+                         ((cons (eql member)) t)))
                (t nil))))
     (rec type)))
-
-(eval-when (:load-toplevel) (incomplete 'type-specifier-p))
