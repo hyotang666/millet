@@ -40,7 +40,7 @@ MIT
 ### Tested with
 * SBCL/2.1.10
 * CCL/1.12
-* ECL/20.4.24 ; Failed.
+* ECL/20.4.24
 * CLISP/2.49
 * Allegro/10.1
 * CLASP/2021-05-26 ; Failed.
@@ -68,9 +68,9 @@ Special thanks to Yehouda about #1!
 * Local function is not supported due to ECL specific issue.
 * The function which is returned from `CL:COMPLEMENT` is not supported due to SBCL and ECL specific issue.
 * The function which is returned from `CL:CONSTANTLY` is not supported due to CCL and ECL and CMUCL specific issue.
-* Funcallable standard class is not supported due to CCL and ECL and CLASP specific issue.
+* Funcallable standard class is not supported due to CCL and ECL and CLASP and ABCL specific issue.
 #### TYPE-EXPAND
-* ECL get false positive when invalid type specifier form comes.
+* ECL may get false positive when invalid type specifier form comes.
 #### TYPE-SPECIFIER-P
 * ECL has [issue](https://gitlab.com/embeddable-common-lisp/ecl/-/issues/570)
 * CLASP has same issue.
