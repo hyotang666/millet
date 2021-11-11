@@ -17,15 +17,7 @@
       (t arg))))
 
 (defun type-expand (type)
-  ;; canonicalize
-  ;; [clhs says](http://clhs.lisp.se/Body/04_bc.htm)
-  ;; > If a list has one or more unspecified items at the end, those items can be dropped.
-  ;; > If dropping all occurrences of * results in a singleton list,
-  ;; > then the parentheses can be dropped as well (the list can be replaced by the symbol in its car).
-  ;; > For example, (vector double-float *) can be abbreviated to (vector double-float),
-  ;; > and (vector * *) can be abbreviated to (vector) and then to vector.
-  (when (and (consp type) (null (cdr type)))
-    (setq type (car type)))
+  (setf type (canonicalize-type-specifier type))
   (let ((expander
          (si:get-sysprop
            (if (atom type)

@@ -179,6 +179,7 @@
         (values expand? t))))
 
 (defun type-specifier-p (specifier)
-  (handler-case (progn (kernel:specifier-type specifier) t)
+  (handler-case
+      (progn (kernel:specifier-type (canonicalize-type-specifier specifier)) t)
     ((or error kernel:parse-unknown-type) ()
       nil)))

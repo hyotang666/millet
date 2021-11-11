@@ -30,8 +30,15 @@
         (values expanded? nil)
         (values expanded? t))))
 
-(defun type-specifier-p (type)
-  (let ((it (ccl:type-specifier-p type)))
-    (if it
-        (values (ignore-errors (progn (typep '#:dummy type) t)))
-        nil)))
+(defun type-specifier-p (specifier)
+  (setf specifier (canonicalize-type-specifier specifier))
+  (let ((it (ccl:type-specifier-p specifier)))
+    (cond ((null it) nil)
+          ((eq it 'ccl:true) (atom specifier))
+          (t
+           (handler-case (typep '#:dummy specifier)
+             (error ()
+               nil)
+             (:no-error (bool)
+               (declare (ignore bool))
+               t))))))

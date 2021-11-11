@@ -58,10 +58,10 @@
                                      (progn (typep '#:dummy specifier) t)))))
                       ((typep specifier '(cons (eql not)))
                        (and (null (cddr specifier))
-                            (type-specifier-p (expand (cadr specifier)))))
+                            (type-specifier-p (cadr specifier))))
                       ((typep specifier '(cons (member and or)))
                        (loop :for spec :in (cdr specifier)
-                             :always (rec (expand spec))))
+                             :always (type-specifier-p spec)))
                       ((typep specifier 'standard-class))
                       ((consp specifier)
                        (typecase specifier
@@ -86,4 +86,4 @@
                       (if expanded?
                           (expand specifier)
                           specifier))))
-           (rec (expand type)))))
+           (rec (expand (canonicalize-type-specifier type))))))

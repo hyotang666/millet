@@ -26,6 +26,7 @@
       (values type nil))))
 
 (defun type-specifier-p (type)
-  (handler-case (sb-ext:valid-type-specifier-p type)
+  (handler-case
+      (sb-ext:valid-type-specifier-p (canonicalize-type-specifier type))
     (sb-kernel:parse-unknown-type ()
       nil)))
