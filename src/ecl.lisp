@@ -42,8 +42,7 @@
                       (values type nil)))
               ;; KLUDGE: CONSTANTLY return compiled-closure,
               ;; not compiled-function nor bytecompiled-function.
-              (if (search "compiled-closure" (prin1-to-string expander)
-                          :start2 2) ; to skip "#<"
+              (if (search "compiled-closure" (prin1-to-string expander))
                   ;; Expander seems to be made by CONSTANTLY.
                   ;; Deftype lambda-list must be null.
                   (if (atom type)
